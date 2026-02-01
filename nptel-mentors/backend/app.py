@@ -10,7 +10,12 @@ from flask_cors import CORS
 from bson.objectid import ObjectId
 import bcrypt
 import logging
+import os
 import re
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
 
 # Flask App Configuration
 app = Flask(__name__)
@@ -49,14 +54,14 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Use your SMTP server
 app.config['MAIL_PORT'] = 587  # Use the appropriate port (587 for TLS)
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = 'akulaliladivyajoythi@gmail.com'  # Your email address
-app.config['MAIL_PASSWORD'] = 'smkq iezl sbdl yulf'  # Your email password
-app.config['MAIL_DEFAULT_SENDER'] = 'akulaliladivyajoythi@gmail.com'
+app.config['MAIL_USERNAME'] =  os.environ.get("SMTP_USER")
+app.config['MAIL_PASSWORD'] = os.environ.get("SMTP_PASS")
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("SMTP_USER")
 
 mail = Mail(app)
 
 # Secret key for JWT token generation
-SECRET_KEY = '71ae4e62a8a04ca9b0b9018d51a1963d0e9d862b9e44254f746f0b24ae3ec5c8'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 @app.route('/forgot-password', methods=['POST'])
 def forgot_password():
